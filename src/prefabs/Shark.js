@@ -5,4 +5,9 @@ class Shark extends Phaser.GameObjects.Sprite {
 
         scene.add.existing(this);
     }
+
+    update(){
+      
+
+    }
 }

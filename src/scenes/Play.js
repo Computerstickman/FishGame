@@ -18,7 +18,7 @@ class Play extends Phaser.Scene {
         this.p1Fish = new Fish(this, game.config.width/3, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
 
         //create shark
-        this.p1Shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
+        this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
 
         //create any ui that goes on top
 
@@ -35,6 +35,14 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
 
         //clock and game over function
+        this.tween = this.tweens.add({
+            targets: this.shark,
+            y: this.p1Fish.y,
+            ease: 'Expo',
+            duration: 50000,
+            repeat: -1,
+            delay:
+        });
         
     }
 
@@ -42,7 +50,12 @@ class Play extends Phaser.Scene {
     update(){
         if (!this.gameOver) {     
             this.ocean.tilePositionX += 4;          
-            this.p1Fish.update();         // update rocket sprite
+            this.p1Fish.update();         // update fish
+
+            //shark's following delay
+            this.tween.updateTo('y', this.p1Fish.y, true);
+
+
             //this.ship01.update();           // update spaceships (x3)
             //this.ship02.update();
             //this.ship03.update();
