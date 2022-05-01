@@ -5,11 +5,20 @@ class Play extends Phaser.Scene {
 
     preload(){
         this.load.image('pfish', './assets/bluepinfish.png');
+        this.load.image('shark', './assets/redpinfish.png');
+        this.load.image('background', './assets/background.png');
     }
 
     create(){
-        //create the backgrounds 
+        // place tile sprite
+        this.ocean = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
         //create player and obstacles
+
+        //create fish
+        this.p1Fish = new Fish(this, game.config.width/3, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
+
+        //create shark
+        this.p1Shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
 
         //create any ui that goes on top
 
@@ -26,12 +35,18 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
 
         //clock and game over function
-
+        
     }
 
 
     update(){
-
+        if (!this.gameOver) {     
+            this.ocean.tilePositionX += 4;          
+            this.p1Fish.update();         // update rocket sprite
+            //this.ship01.update();           // update spaceships (x3)
+            //this.ship02.update();
+            //this.ship03.update();
+        } 
     }
 
 

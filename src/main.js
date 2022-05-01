@@ -10,5 +10,5 @@ let game = new Phaser.Game(config);
 let keyENTER, keyUP, keyDOWN;
 
 //ui size
-//let borderUISize = game.config.height / 15;
-//let borderPadding = borderUISize / 3;
+let borderUISize = game.config.height / 15;
+let borderPadding = borderUISize / 3;

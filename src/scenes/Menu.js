@@ -13,13 +13,18 @@ class Menu extends Phaser.Scene {
         //menu text
 
         //define keys;
-        keyENTER = this.input.keyboard.addKey(Phaser.Inpur.Keyboard.KeyCodes.ENTER)
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
+
     }
 
     update(){
 
         if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
             //play enter sound
+            //skips intro
+        this.scene.start("playScene");
         }
     }
 
