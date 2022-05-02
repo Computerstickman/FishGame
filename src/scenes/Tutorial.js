@@ -39,7 +39,7 @@ class Tutorial extends Phaser.Scene {
         this.p1Score = 0;
 
         //tutorial length
-        this.clock = this.time.delayedCall(10000, () => {
+        this.clock = this.time.delayedCall(8000, () => {
             this.scene.start("playScene");
         }, null, this);
         

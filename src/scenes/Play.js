@@ -21,7 +21,7 @@ class Play extends Phaser.Scene {
         this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
         //create trash
         this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
-        this.trash01 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
+        this.trash02 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
         //create any ui that goes on top
 
         //define keys
@@ -44,6 +44,7 @@ class Play extends Phaser.Scene {
             this.ocean.tilePositionX += 4;          
             this.p1Fish.update();         // update fish
             this.trash01.update(); 
+            this.trash02.update(); 
 
             if(this.shark.y != this.p1Fish.y)
             {
@@ -54,6 +55,10 @@ class Play extends Phaser.Scene {
             if(this.checkCollision(this.p1Fish, this.trash01)){
                 this.p1Fish.recoil();
                 this.trash01.reset();
+            }
+            if(this.checkCollision(this.p1Fish, this.trash02)){
+                this.p1Fish.recoil();
+                this.trash02.reset();
             }
             if(this.checkCollision(this.p1Fish, this.shark)){
                 //
