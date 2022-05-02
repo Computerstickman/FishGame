@@ -15,10 +15,6 @@ class Fish extends Phaser.GameObjects.Sprite {
             this.y += this.moveSpeed;
         }
 
-        
-
-
-
     }
 
 
