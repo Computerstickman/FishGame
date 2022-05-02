@@ -1,5 +1,5 @@
 // ifsh prefab
-class Fish extends Phaser.GameObjects.Sprite {
+class Trash extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
 
@@ -13,7 +13,13 @@ update() {
     if(this.x <= 0 - this.width) {
         this.x = game.config.width;
     }
-
 }
+
+reset() {
+    let rand = Math.floor(Math.random() * game.config.height);
+    this.x = game.config.width;
+    this.y = rand;
+}
+
 
 }

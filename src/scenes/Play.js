@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
         this.load.image('pfish', './assets/bluepinfish.png');
         this.load.image('shark', './assets/redpinfish.png');
         this.load.image('trash', './assets/greenpinfish.png');
-        this.load.image('background', './assets/background.png');
+        this.load.image('background', './assets/oceanbackground.png');
     }
 
     create(){
@@ -19,6 +19,9 @@ class Play extends Phaser.Scene {
         this.p1Fish = new Fish(this, game.config.width/3, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
         //create shark
         this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
+        //create trash
+        this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
+        this.trash01 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
         //create any ui that goes on top
 
         //define keys
@@ -40,6 +43,7 @@ class Play extends Phaser.Scene {
         if (!this.gameOver) {     
             this.ocean.tilePositionX += 4;          
             this.p1Fish.update();         // update fish
+            this.trash01.update(); 
 
             if(this.shark.y != this.p1Fish.y)
             {
@@ -47,13 +51,33 @@ class Play extends Phaser.Scene {
             }
             //shark's following delay
 
+            if(this.checkCollision(this.p1Fish, this.trash01)){
+                this.p1Fish.recoil();
+                this.trash01.reset();
+            }
+            if(this.checkCollision(this.p1Fish, this.shark)){
+                //
+                this.gameOver = true
+            }
 
-
-            //this.ship01.update();           // update spaceships (x3)
-            //this.ship02.update();
-            //this.ship03.update();
+            //this.enemy01.update();           // update spaceenemys (x3)
+            //this.enemy02.update();
+            //this.enemy03.update();
         } 
     }
+
+    checkCollision(player, enemy) {
+        if (player.x < enemy.x + enemy.width && 
+            player.x + player.width > enemy.x && 
+            player.y < enemy.y + enemy.height &&
+            player.height + player.y > enemy. y) {
+                return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 
 }
