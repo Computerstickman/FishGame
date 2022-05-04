@@ -4,10 +4,10 @@ class Tutorial extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('pfish', './assets/bluepinfish.png');
-        this.load.image('shark', './assets/redpinfish.png');
-        this.load.image('trash', './assets/greenpinfish.png');
-        this.load.image('background', './assets/background.png');
+        this.load.image('pfish', './assets/greenpinfish.png');
+        this.load.image('shark', './assets/shark.png');
+        this.load.image('trash', './assets/bag.png');
+        this.load.image('background', './assets/oceanbackground.png');
         this.load.image('controls', './assets/arrows.png');
         //key images
         //warning images
