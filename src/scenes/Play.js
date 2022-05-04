@@ -4,10 +4,14 @@ class Play extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image('pfish', './assets/bluepinfish.png');
-        this.load.image('shark', './assets/redpinfish.png');
-        this.load.image('trash', './assets/greenpinfish.png');
+        this.load.image('pfish', './assets/greenpinfish.png');
+        this.load.image('shark', './assets/shark.png');
+        this.load.image('trash', './assets/bag.png');
         this.load.image('background', './assets/oceanbackground.png');
+
+        //spritesheets
+        this.load.spritesheet('shark', './assets/sharkani.png', {framewidth: 640, frameheight: 96, startframe: 0, endframe: 5});
+        this.load.spritesheet('hurt', './assets/fishhurt.png', {framewidth: 295, frameheight: 64, startframe: 0, endframe: 5});
     }
 
     create(){
