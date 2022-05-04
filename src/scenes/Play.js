@@ -68,10 +68,12 @@ class Play extends Phaser.Scene {
 
             if(this.checkCollision(this.p1Fish, this.trash01)){
                 this.p1Fish.recoil();
+                this.fishhurt();
                 this.trash01.reset();
             }
             if(this.checkCollision(this.p1Fish, this.trash02)){
                 this.p1Fish.recoil();
+                this.fishhurt();
                 this.trash02.reset();
             }
             if(this.checkCollision(this.p1Fish, this.shark)){
