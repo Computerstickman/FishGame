@@ -10,8 +10,8 @@ class Play extends Phaser.Scene {
         this.load.image('background', './assets/oceanbackground.png');
 
         //spritesheets
-        this.load.spritesheet('shark', './assets/sharkani.png', {framewidth: 640, frameheight: 96, startframe: 0, endframe: 5});
-        this.load.spritesheet('hurt', './assets/fishhurt.png', {framewidth: 295, frameheight: 64, startframe: 0, endframe: 5});
+        this.load.spritesheet('sharkchomp', './assets/sharkani.png', {framewidth: 640, frameheight: 96, startframe: 0, endframe: 5});
+        this.load.spritesheet('damage', './assets/fishhurt.png', {framewidth: 295, frameheight: 64, startframe: 0, endframe: 5});
     }
 
     create(){
@@ -34,6 +34,16 @@ class Play extends Phaser.Scene {
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 
         //config animations
+        this.anims.create({
+            key: 'hurt',
+            frames: this.anims.generateFrameNumbers('damage', {start: 0, end: 5, first: 0}),
+            frameRate: 12
+        });
+        this.anims.create({
+            key: 'chomps',
+            frames: this.anims.generateFrameNumbers('sharkchomp', {start: 0, end: 5, first: 0}),
+            frameRate: 12
+        });
 
         this.p1Score = 0;
 
@@ -84,6 +94,23 @@ class Play extends Phaser.Scene {
         } else {
             return false;
         }
+    }
+
+    fishhurt(player){
+        // temporarily hide player
+        player.alpha = 0;                         
+        // create explosion sprite at player position
+        let pain = this.add.sprite(player.x, player.y, 'hurt').setOrigin(0, 0);
+        pain.anims.play('hurt');
+        pain.on('animationcomplete', () => {
+          plsyer.reset();
+          player.alpha = 1;
+          pain.destroy();
+        });
+        // score add and repaint
+        this.p1Score += ship.points;
+        this.scoreLeft.text = this.p1Score;
+        this.sound.play('hurt');
     }
 
 
