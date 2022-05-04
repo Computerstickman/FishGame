@@ -9,10 +9,15 @@ class Menu extends Phaser.Scene {
         this.load.audio('damage', './assets/damagenoise.wav');
         this.load.audio('death', './assets/deathnoise.wav');
         this.load.audio('sharkroar', './assets/beastroar.wav');
+        this.load.audio('backmusic', './assets/horrorambience.wav');
         this.load.image('background', './assets/oceanbackground.png');
     }
 
     create(){
+
+        //background Music
+        this.sound.play('backmusic');
+        
         //text config if applicable
         let menuConfig = {
             fontFamily: 'Courier',
