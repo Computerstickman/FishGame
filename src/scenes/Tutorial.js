@@ -71,7 +71,6 @@ class Tutorial extends Phaser.Scene {
 
         } 
 
-
         
         checkCollision(player, enemy) {
             if (player.x < enemy.x + enemy.width && 
