@@ -96,21 +96,25 @@ class Play extends Phaser.Scene {
         }
     }
 
-    fishhurt(player){
+    fishhurt(p1Fish){
         // temporarily hide player
-        player.alpha = 0;                         
+        p1Fish.alpha = 0;                         
         // create explosion sprite at player position
-        let pain = this.add.sprite(player.x, player.y, 'hurt').setOrigin(0, 0);
+        let pain = this.add.sprite(p1Fish.x, p1Fish.y, 'hurt').setOrigin(0, 0);
         pain.anims.play('hurt');
         pain.on('animationcomplete', () => {
-          plsyer.reset();
-          player.alpha = 1;
-          pain.destroy();
+            p1Fish.reset();
+            p1Fish.alpha = 1;
+            pain.destroy();
         });
         // score add and repaint
-        this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;
-        this.sound.play('hurt');
+        //this.p1Score += ship.points;
+        //this.scoreLeft.text = this.p1Score;
+        this.sound.play('damage');
+    }
+
+    sharkbite(shark){
+        
     }
 
 
