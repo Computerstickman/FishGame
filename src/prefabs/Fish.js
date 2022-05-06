@@ -18,9 +18,11 @@ class Fish extends Phaser.GameObjects.Sprite {
     }
 
     recoil(){
-
+        this.y = this.y;
         this.x -= 45;
         // add spin/recoil anim and make movement slower
+
+        
     }
     
 

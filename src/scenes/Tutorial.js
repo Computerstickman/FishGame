@@ -24,9 +24,11 @@ class Tutorial extends Phaser.Scene {
         //create shark
         this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
         //create any ui that goes on top
+        controls = this.add.sprite(game.config.width/3, game.config.height/2, 'controls');
+        controls.alpha = 0.0;
 
         this.clock = this.time.delayedCall(2000, () => {
-            controls = this.add.sprite(game.config.width/3, game.config.height/2, 'controls');
+            controls.alpha = 1.0;
             this.input.keyboard.enabled = true;
         }, null, this);
         //define keys

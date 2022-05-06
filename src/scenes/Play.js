@@ -10,8 +10,8 @@ class Play extends Phaser.Scene {
         this.load.image('background', './assets/oceanbackground.png');
 
         //spritesheets
-        this.load.spritesheet('sharkchomp', './assets/sharkani.png', {framewidth: 640, frameheight: 96, startframe: 0, endframe: 5});
-        this.load.spritesheet('damage', './assets/fishhurt.png', {framewidth: 295, frameheight: 64, startframe: 0, endframe: 5});
+        this.load.spritesheet('sharkchomp', './assets/sharkani.png', {frameWidth: 128, frameHeight: 96, startFrame: 0, endFrame: 4});
+        this.load.spritesheet('damage', './assets/fishhurt.png', {frameWidth: 59, frameHeight: 64, startFrame: 0, endFrame: 4});
     }
 
     create(){
@@ -20,9 +20,9 @@ class Play extends Phaser.Scene {
         //create player and obstacles
 
         //create fish
-        this.p1Fish = new Fish(this, game.config.width/3, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
+        this.p1Fish = new Fish(this, game.config.width/3 + 20, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
         //create shark
-        this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0.5)
+        this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0)
         //create trash
         this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
         this.trash02 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
@@ -36,12 +36,12 @@ class Play extends Phaser.Scene {
         //config animations
         this.anims.create({
             key: 'hurt',
-            frames: this.anims.generateFrameNumbers('damage', {start: 0, end: 5, first: 0}),
+            frames: this.anims.generateFrameNumbers('damage', {start: 0, end: 4, first: 0}),
             frameRate: 12
         });
         this.anims.create({
             key: 'chomps',
-            frames: this.anims.generateFrameNumbers('sharkchomp', {start: 0, end: 5, first: 0}),
+            frames: this.anims.generateFrameNumbers('sharkchomp', {start: 0, end: 4, first: 0}),
             frameRate: 12
         });
 
@@ -68,12 +68,12 @@ class Play extends Phaser.Scene {
 
             if(this.checkCollision(this.p1Fish, this.trash01)){
                 this.p1Fish.recoil();
-                this.fishhurt();
+                this.fishHurt(this.p1Fish);
                 this.trash01.reset();
             }
             if(this.checkCollision(this.p1Fish, this.trash02)){
                 this.p1Fish.recoil();
-                this.fishhurt();
+                this.fishHurt(this.p1Fish);
                 this.trash02.reset();
             }
             if(this.checkCollision(this.p1Fish, this.shark)){
@@ -98,15 +98,16 @@ class Play extends Phaser.Scene {
         }
     }
 
-    fishhurt(p1Fish){
+
+
+    fishHurt(fish){
         // temporarily hide player
-        p1Fish.alpha = 0;                         
+        fish.alpha = 0;                         
         // create explosion sprite at player position
-        let pain = this.add.sprite(p1Fish.x, p1Fish.y, 'hurt').setOrigin(0, 0);
+        let pain = this.add.sprite(fish.x, fish.y, 'hurt').setOrigin(0.5, 0.5);
         pain.anims.play('hurt');
         pain.on('animationcomplete', () => {
-            p1Fish.reset();
-            p1Fish.alpha = 1;
+            fish.alpha = 1;
             pain.destroy();
         });
         // score add and repaint
@@ -114,6 +115,7 @@ class Play extends Phaser.Scene {
         //this.scoreLeft.text = this.p1Score;
         this.sound.play('damage');
     }
+
 
     sharkbite(shark){
         

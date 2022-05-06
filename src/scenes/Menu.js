@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
             //play enter sound
             //skips intro
-        this.scene.start("playScene");
+        this.scene.start("tutorialScene");
         this.sound.play('movement');
         }
     }
