@@ -18,6 +18,20 @@ class Play extends Phaser.Scene {
     }
 
     create(){
+
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#38939d',
+            color: '#ffffff',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 0
+        }
+
         // place tile sprite
         this.ocean = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
         //create player and obstacles
@@ -30,10 +44,8 @@ class Play extends Phaser.Scene {
         this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
         this.trash02 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
 
-        let three = false;
-
         this.clock = this.time.delayedCall(15000, () => {
-            this.trash03 = new Trash(this, game.config.width, game.config.height/3, 'trash').setOrigin(0.5, 0.5);
+            this.trash03 = new Trash(this, game.config.width, game.config.height/3, 'can').setOrigin(0.5, 0.5);
             three = true;
         }, null, this);
 
@@ -61,14 +73,23 @@ class Play extends Phaser.Scene {
         });
 
         this.p1Score = 0;
+        this.timer = 0;
 
         // GAME OVER flag
         this.gameOver = false;
+
+        this.score = this.add.text(0, 0, this.p1Score, scoreConfig);
         
     }
 
 
-    update(){
+    update(time, delta){
+        this.timer += delta;
+        while (this.timer > 1000 && !this.gameOver) {
+            this.p1Score += 1;
+            this.score.text = this.p1Score;
+            this.timer -= 1000;
+        }
         if(this.shark.x <= -15)
         {
             this.shark.x += 2;
@@ -81,8 +102,12 @@ class Play extends Phaser.Scene {
             if(three)
             {
                 this.trash03.update(); 
+                if(this.checkCollision(this.p1Fish, this.trash03)){
+                    this.p1Fish.recoil();
+                    this.fishHurt(this.p1Fish);
+                    this.trash03.reset();
+                }
             }
-            this.p1Score += 0.05;
             if(this.shark.y != this.p1Fish.y)
             {
                 this.shark.y = this.p1Fish.y;
@@ -104,13 +129,13 @@ class Play extends Phaser.Scene {
                 this.sharkBite(this.shark, this.p1Fish)
                 this.gameOver = true
             }
-
-            //this.enemy01.update();           // update spaceenemys (x3)
-            //this.enemy02.update();
-            //this.enemy03.update();
         } else 
         {
-
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER - Press ENTER to restart', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+            if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
+                this.game.sound.stopAll();
+                this.scene.restart();
+            }
         }
     }
 

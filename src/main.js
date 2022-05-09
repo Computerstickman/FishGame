@@ -12,6 +12,7 @@ let controls;
 let game = new Phaser.Game(config);
 //keyboard
 let keyENTER, keyUP, keyDOWN;
+let three = false;
 
 
 

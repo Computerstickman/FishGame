@@ -9,9 +9,9 @@ class Fish extends Phaser.GameObjects.Sprite {
 
     update() {
         //up down movement
-        if(keyUP.isDown && this.y < game.config.height){
+        if(keyUP.isDown && this.y > 0){
             this.y -= this.moveSpeed;
-        } else if (keyDOWN.isDown && this.y >= 0) {
+        } else if (keyDOWN.isDown && this.y < game.config.height) {
             this.y += this.moveSpeed;
         }
 
