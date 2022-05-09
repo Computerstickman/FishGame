@@ -8,6 +8,7 @@ class Play extends Phaser.Scene {
         this.load.image('shark', './assets/shark.png');
         this.load.image('trash', './assets/bag.png');
         this.load.image('background', './assets/oceanbackground.png');
+        this.load.image('can', './assets/can.png');
 
         this.load.audio('music', './assets/music.wav');
 
