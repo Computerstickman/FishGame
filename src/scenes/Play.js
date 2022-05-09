@@ -9,8 +9,10 @@ class Play extends Phaser.Scene {
         this.load.image('trash', './assets/bag.png');
         this.load.image('background', './assets/oceanbackground.png');
 
+        this.load.audio('music', './assets/music.wav');
+
         //spritesheets
-        this.load.spritesheet('sharkchomp', './assets/sharkani.png', {frameWidth: 128, frameHeight: 96, startFrame: 0, endFrame: 4});
+        this.load.spritesheet('sharkChomp', './assets/sharkani.png', {frameWidth: 128, frameHeight: 96, startFrame: 0, endFrame: 4});
         this.load.spritesheet('damage', './assets/fishhurt.png', {frameWidth: 59, frameHeight: 64, startFrame: 0, endFrame: 4});
     }
 
@@ -20,13 +22,25 @@ class Play extends Phaser.Scene {
         //create player and obstacles
 
         //create fish
-        this.p1Fish = new Fish(this, game.config.width/3 + 20, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
+        this.p1Fish = new Fish(this, game.config.width/3 + 25, game.config.height/2, 'pfish').setOrigin(0.5, 0.5)
         //create shark
-        this.shark = new Shark(this, game.config.width * 0.05, game.config.height/2, 'shark').setOrigin(0.5, 0)
+        this.shark = new Shark(this, -60, game.config.height/2, 'shark').setOrigin(0, 0.5)
         //create trash
         this.trash01 = new Trash(this, game.config.width, game.config.height/2, 'trash').setOrigin(0.5, 0.5);
         this.trash02 = new Trash(this, game.config.width, game.config.height/4, 'trash').setOrigin(0.5, 0.5);
-        //create any ui that goes on top
+
+        let three = false;
+
+        this.clock = this.time.delayedCall(15000, () => {
+            this.trash03 = new Trash(this, game.config.width, game.config.height/3, 'trash').setOrigin(0.5, 0.5);
+            three = true;
+        }, null, this);
+
+
+        var music = this.sound.add('music');
+        music.setLoop(true);
+        music.play();
+
 
         //define keys
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
@@ -40,8 +54,8 @@ class Play extends Phaser.Scene {
             frameRate: 12
         });
         this.anims.create({
-            key: 'chomps',
-            frames: this.anims.generateFrameNumbers('sharkchomp', {start: 0, end: 4, first: 0}),
+            key: 'chomp',
+            frames: this.anims.generateFrameNumbers('sharkChomp', {start: 0, end: 4, first: 0}),
             frameRate: 12
         });
 
@@ -54,12 +68,20 @@ class Play extends Phaser.Scene {
 
 
     update(){
+        if(this.shark.x <= -15)
+        {
+            this.shark.x += 2;
+        } else
         if (!this.gameOver) {     
             this.ocean.tilePositionX += 4;          
             this.p1Fish.update();         // update fish
             this.trash01.update(); 
             this.trash02.update(); 
-
+            if(three)
+            {
+                this.trash03.update(); 
+            }
+            this.p1Score += 0.05;
             if(this.shark.y != this.p1Fish.y)
             {
                 this.shark.y = this.p1Fish.y;
@@ -78,13 +100,17 @@ class Play extends Phaser.Scene {
             }
             if(this.checkCollision(this.p1Fish, this.shark)){
                 //
+                this.sharkBite(this.shark, this.p1Fish)
                 this.gameOver = true
             }
 
             //this.enemy01.update();           // update spaceenemys (x3)
             //this.enemy02.update();
             //this.enemy03.update();
-        } 
+        } else 
+        {
+
+        }
     }
 
     checkCollision(player, enemy) {
@@ -101,6 +127,7 @@ class Play extends Phaser.Scene {
 
 
     fishHurt(fish){
+        this.input.keyboard.enabled = false;
         // temporarily hide player
         fish.alpha = 0;                         
         // create explosion sprite at player position
@@ -110,15 +137,23 @@ class Play extends Phaser.Scene {
             fish.alpha = 1;
             pain.destroy();
         });
-        // score add and repaint
-        //this.p1Score += ship.points;
-        //this.scoreLeft.text = this.p1Score;
-        this.sound.play('damage');
+        this.sound.play('movement');
+        this.input.keyboard.enabled = true;
     }
 
 
-    sharkbite(shark){
-        
+    sharkBite(shark, fish){
+            // temporarily hide player
+            shark.alpha = 0;                         
+            // create explosion sprite at player position
+            let chomp = this.add.sprite(shark.x, shark.y, 'chomp').setOrigin(0, 0.5);
+            chomp.anims.play('chomp');
+            chomp.on('animationcomplete', () => {
+                fish.alpha = 0;
+                chomp.destroy();
+            });
+            this.sound.play('movement');
+            shark.alpha = 1; 
     }
 
 
